@@ -3,7 +3,7 @@
 # dependencies = ["pandas"]
 # ///
 """
-Animated Premier League Bump Chart Race — Client‑Side Edition
+Animated Premier League — Client‑Side Edition
 
 Generates index.html with all season data embedded inline (no fetch needed).
 Works both locally (file://) and on GitHub Pages. Run build_data.py first
@@ -43,7 +43,7 @@ def generate_index_html(output_filename="index.html"):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premier League Bump Chart Race</title>
+<title>Premier League</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -70,13 +70,14 @@ html, body { width: 100%; height: 100%; font-family: -apple-system, BlinkMacSyst
 .legend-item.dimmed { opacity: 0.35; }
 .legend-item.stuck { background: #dbeafe; font-weight: 700; opacity: 1 !important; }
 .legend-color { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.tooltip { position: absolute; pointer-events: none; background: #1e293b; color: #f8fafc; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap; opacity: 0; transition: opacity .15s; z-index: 10; }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
     <div class="header-left">
-      <h1>Premier League Bump Chart Race</h1>
+      <h1>Premier League</h1>
       <span class="subtitle" id="season-label"></span>
     </div>
     <div class="header-right">
@@ -101,6 +102,8 @@ html, body { width: 100%; height: 100%; font-family: -apple-system, BlinkMacSyst
   <div class="legend-panel" id="legend"></div>
 </div>
 
+<div class="tooltip" id="tooltip"></div>
+
 <script>
 const SEASONS_MANIFEST = """ + manifest_json + """;
 const SEASONS_DATA = """ + seasons_json + """;
@@ -112,6 +115,7 @@ const SEASONS_DATA = """ + seasons_json + """;
   const seasonSelect = document.getElementById('season-select');
   const seasonLabel = document.getElementById('season-label');
   const btnPlay = document.getElementById('btn-play');
+  const tooltip = document.getElementById('tooltip');
 
   let DATA = null;
   let margin = { top: 20, right: 200, bottom: 40, left: 70 };
@@ -195,6 +199,15 @@ const SEASONS_DATA = """ + seasons_json + """;
         .attr('font-size', '9px').attr('font-weight', '700')
         .attr('fill', DATA.teamColors[team])
         .text(DATA.teamAbbrs[team]);
+      mg.on('mouseenter', function(e) {
+        tooltip.textContent = team;
+        tooltip.style.opacity = '1';
+      }).on('mousemove', function(e) {
+        tooltip.style.left = (e.clientX + 14) + 'px';
+        tooltip.style.top = (e.clientY - 30) + 'px';
+      }).on('mouseleave', function() {
+        tooltip.style.opacity = '0';
+      });
     });
 
     updateMarkers(true);
