@@ -16,7 +16,7 @@ An animated, client-side bump chart race showing team ranking positions across e
 
 ## How it works
 
-Pre-computed ranking data is stored as compact JSON files in `data/` (one file per season, ~7–10 KB each). The page loads the manifest and fetches season data on demand — everything runs in the browser.
+All 20 seasons (2006–07 to 2025–26) are embedded directly in the HTML — no network requests needed after page load. The chart works locally (`file://`) and on any static host.
 
 ## Building locally
 
@@ -35,18 +35,18 @@ uv run bump_chart_race.py
 This writes `index.html`. The Python scripts only need `pandas` (auto-installed by `uv`).
 
 ### 3. Deploy
-Push `index.html` and the `data/` directory. Enable GitHub Pages on the repo — no build step needed.
+Push `index.html`. One file, zero dependencies. Enable GitHub Pages on the repo — no build step needed.
 
 ## Project structure
 
 ```
 relegation-tracker/
-├── data/                 # Pre-computed ranking JSON (20 seasons)
-│   ├── seasons.json      # Manifest of available seasons
-│   └── season-XXXX.json  # One file per season
-├── index.html            # The animated bump chart (client-side)
-├── build_data.py         # Script to download & compute season data
-├── bump_chart_race.py    # Script to generate index.html
+├── index.html            # Self-contained chart (all data embedded)
+├── data/                 # Source JSON (for rebuilding)
+│   ├── seasons.json
+│   └── season-XXXX.json
+├── build_data.py         # Downloads & computes season data
+├── bump_chart_race.py    # Generates index.html from data/
 └── README.md
 ```
 
