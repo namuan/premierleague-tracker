@@ -102,12 +102,17 @@ function resize() {
   const rect = container.getBoundingClientRect();
   width = rect.width;
   height = rect.height;
+  if (width < 100 || height < 100) return;
   margin.right = Math.max(150, width * 0.15);
-  if (svg) { d3.select('#chart svg').remove(); draw(); }
+  d3.select('#chart svg').remove();
+  if (!DATA) return;
+  svg = d3.select('#chart').append('svg')
+    .attr('viewBox', [0, 0, width, height]);
+  draw();
 }
 
 function draw() {
-  if (!DATA) return;
+  if (!DATA || !svg) return;
   svg.selectAll('*').remove();
   g = svg.append('g');
   g.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
@@ -312,7 +317,6 @@ function setData(json) {
   btnPlay.textContent = '\u25B6';
   clearTimeout(animationTimer);
   seasonLabel.textContent = json.label + ' Season';
-  svg = d3.select('#chart').append('svg').attr('viewBox', [0, 0, 1, 1]);
   resize();
   buildLegend();
   applySticky();
@@ -359,6 +363,10 @@ window.addEventListener('resize', resize);
     with open(output_filename, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"Client-side bump chart race: '{output_filename}'")
+
+
+def main():
+    generate_race_html()
     print("Run build_data.py first to populate data/ then open index.html")
     print("Works on GitHub Pages! Commit data/ + index.html")
 

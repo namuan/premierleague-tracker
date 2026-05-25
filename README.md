@@ -2,7 +2,7 @@
 
 An animated, client-side bump chart race showing team ranking positions across every Premier League matchday since 2006–07.
 
-**[Live demo →](https://YOUR_USER.github.io/relegation-tracker/)**
+**[Live demo →](https://namuan.github.io/premierleague-tracker/)**
 
 ## Features
 
