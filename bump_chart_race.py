@@ -11,7 +11,7 @@ first to populate the data/ directory.
 """
 
 
-def generate_race_html(output_filename="race.html"):
+def generate_race_html(output_filename="index.html"):
     html = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -359,12 +359,8 @@ window.addEventListener('resize', resize);
     with open(output_filename, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"Client-side bump chart race: '{output_filename}'")
-
-
-def main():
-    generate_race_html()
-    print("Run build_data.py first to populate data/ then open race.html")
-    print("Works on GitHub Pages! Commit data/ + race.html")
+    print("Run build_data.py first to populate data/ then open index.html")
+    print("Works on GitHub Pages! Commit data/ + index.html")
 
 
 if __name__ == "__main__":
