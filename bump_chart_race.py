@@ -114,7 +114,7 @@ const SEASONS_DATA = """ + seasons_json + """;
   const btnPlay = document.getElementById('btn-play');
 
   let DATA = null;
-  let margin = { top: 20, right: 200, bottom: 40, left: 60 };
+  let margin = { top: 20, right: 200, bottom: 40, left: 70 };
   let width, height;
   let svg, g;
   let xScale, yScale;
@@ -148,7 +148,7 @@ const SEASONS_DATA = """ + seasons_json + """;
     var plotH = height - margin.top - margin.bottom;
 
     yScale = d3.scaleLinear().domain([0.5, DATA.numTeams + 0.5]).range([0, plotH]);
-    xScale = d3.scalePoint().domain(DATA.dates).range([0, plotW]);
+    xScale = d3.scalePoint().domain(DATA.dates).range([20, plotW - 20]);
 
     var gridG = g.append('g');
     for (var r = 1; r <= DATA.numTeams; r++) {
